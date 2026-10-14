@@ -1,0 +1,1297 @@
+.class public Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;
+.super Lcom/hoho/android/usbserial/driver/CommonUsbSerialPort;
+.source "SourceFile"
+
+
+# annotations
+.annotation system Ldalvik/annotation/EnclosingClass;
+    value = Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver;
+.end annotation
+
+.annotation system Ldalvik/annotation/InnerClass;
+    accessFlags = 0x1
+    name = "Ch340SerialPort"
+.end annotation
+
+
+# static fields
+.field private static final USB_TIMEOUT_MILLIS:I = 0x1388
+
+
+# instance fields
+.field private final DEFAULT_BAUD_RATE:I
+
+.field private dtr:Z
+
+.field private rts:Z
+
+.field final synthetic this$0:Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver;
+
+
+# direct methods
+.method public constructor <init>(Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver;Landroid/hardware/usb/UsbDevice;I)V
+    .locals 0
+
+    iput-object p1, p0, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->this$0:Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver;
+
+    invoke-direct {p0, p2, p3}, Lcom/hoho/android/usbserial/driver/CommonUsbSerialPort;-><init>(Landroid/hardware/usb/UsbDevice;I)V
+
+    const/16 p1, 0x2580
+
+    iput p1, p0, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->DEFAULT_BAUD_RATE:I
+
+    const/4 p1, 0x0
+
+    iput-boolean p1, p0, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->dtr:Z
+
+    iput-boolean p1, p0, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->rts:Z
+
+    return-void
+.end method
+
+.method private checkState(Ljava/lang/String;II[I)V
+    .locals 5
+
+    array-length v0, p4
+
+    new-array v0, v0, [B
+
+    const/4 v1, 0x0
+
+    invoke-direct {p0, p2, p3, v1, v0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->controlIn(III[B)I
+
+    move-result p2
+
+    const-string p3, "]"
+
+    if-ltz p2, :cond_4
+
+    array-length v2, p4
+
+    const-string v3, " ["
+
+    if-ne p2, v2, :cond_3
+
+    :goto_0
+    array-length p2, p4
+
+    if-ge v1, p2, :cond_2
+
+    aget p2, p4, v1
+
+    const/4 v2, -0x1
+
+    if-ne p2, v2, :cond_0
+
+    goto :goto_1
+
+    :cond_0
+    aget-byte v2, v0, v1
+
+    and-int/lit16 v2, v2, 0xff
+
+    if-ne p2, v2, :cond_1
+
+    :goto_1
+    add-int/lit8 v1, v1, 0x1
+
+    goto :goto_0
+
+    :cond_1
+    new-instance p2, Ljava/io/IOException;
+
+    new-instance v0, Ljava/lang/StringBuilder;
+
+    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v4, "Expected 0x"
+
+    invoke-virtual {v0, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    aget p4, p4, v1
+
+    invoke-static {p4}, Ljava/lang/Integer;->toHexString(I)Ljava/lang/String;
+
+    move-result-object p4
+
+    invoke-virtual {v0, p4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string p4, " byte, but get 0x"
+
+    invoke-virtual {v0, p4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-static {v2}, Ljava/lang/Integer;->toHexString(I)Ljava/lang/String;
+
+    move-result-object p4
+
+    invoke-virtual {v0, p4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v0, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v0, p3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object p1
+
+    invoke-direct {p2, p1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw p2
+
+    :cond_2
+    return-void
+
+    :cond_3
+    new-instance v0, Ljava/io/IOException;
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v2, "Expected "
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    array-length p4, p4
+
+    invoke-virtual {v1, p4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    const-string p4, " bytes, but get "
+
+    invoke-virtual {v1, p4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1, p2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1, p3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object p1
+
+    invoke-direct {v0, p1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    :cond_4
+    new-instance p2, Ljava/io/IOException;
+
+    new-instance p4, Ljava/lang/StringBuilder;
+
+    invoke-direct {p4}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v0, "Failed send cmd ["
+
+    invoke-virtual {p4, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p4, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p4, p3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p4}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object p1
+
+    invoke-direct {p2, p1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw p2
+.end method
+
+.method private controlIn(III[B)I
+    .locals 8
+
+    iget-object v0, p0, Lcom/hoho/android/usbserial/driver/CommonUsbSerialPort;->mConnection:Landroid/hardware/usb/UsbDeviceConnection;
+
+    array-length v6, p4
+
+    const/16 v7, 0x1388
+
+    const/16 v1, 0xc0
+
+    move v2, p1
+
+    move v3, p2
+
+    move v4, p3
+
+    move-object v5, p4
+
+    invoke-virtual/range {v0 .. v7}, Landroid/hardware/usb/UsbDeviceConnection;->controlTransfer(IIII[BII)I
+
+    move-result p1
+
+    return p1
+.end method
+
+.method private controlOut(III)I
+    .locals 8
+
+    iget-object v0, p0, Lcom/hoho/android/usbserial/driver/CommonUsbSerialPort;->mConnection:Landroid/hardware/usb/UsbDeviceConnection;
+
+    const/4 v6, 0x0
+
+    const/16 v7, 0x1388
+
+    const/16 v1, 0x40
+
+    const/4 v5, 0x0
+
+    move v2, p1
+
+    move v3, p2
+
+    move v4, p3
+
+    invoke-virtual/range {v0 .. v7}, Landroid/hardware/usb/UsbDeviceConnection;->controlTransfer(IIII[BII)I
+
+    move-result p1
+
+    return p1
+.end method
+
+.method private getStatus()B
+    .locals 4
+
+    const/4 v0, 0x2
+
+    new-array v0, v0, [B
+
+    const/16 v1, 0x95
+
+    const/16 v2, 0x706
+
+    const/4 v3, 0x0
+
+    invoke-direct {p0, v1, v2, v3, v0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->controlIn(III[B)I
+
+    move-result v1
+
+    if-ltz v1, :cond_0
+
+    aget-byte v0, v0, v3
+
+    return v0
+
+    :cond_0
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "Error getting control lines"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+.end method
+
+.method private initialize()V
+    .locals 7
+
+    const/4 v0, -0x1
+
+    const/4 v1, 0x0
+
+    filled-new-array {v0, v1}, [I
+
+    move-result-object v2
+
+    const-string v3, "init #1"
+
+    const/16 v4, 0x5f
+
+    invoke-direct {p0, v3, v4, v1, v2}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->checkState(Ljava/lang/String;II[I)V
+
+    const/16 v2, 0xa1
+
+    invoke-direct {p0, v2, v1, v1}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->controlOut(III)I
+
+    move-result v3
+
+    if-ltz v3, :cond_2
+
+    const/16 v3, 0x2580
+
+    invoke-direct {p0, v3}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->setBaudRate(I)V
+
+    const-string v4, "init #4"
+
+    filled-new-array {v0, v1}, [I
+
+    move-result-object v1
+
+    const/16 v5, 0x95
+
+    const/16 v6, 0x2518
+
+    invoke-direct {p0, v4, v5, v6, v1}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->checkState(Ljava/lang/String;II[I)V
+
+    const/16 v1, 0x9a
+
+    const/16 v4, 0xc3
+
+    invoke-direct {p0, v1, v6, v4}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->controlOut(III)I
+
+    move-result v1
+
+    if-ltz v1, :cond_1
+
+    const-string v1, "init #6"
+
+    filled-new-array {v0, v0}, [I
+
+    move-result-object v4
+
+    const/16 v6, 0x706
+
+    invoke-direct {p0, v1, v5, v6, v4}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->checkState(Ljava/lang/String;II[I)V
+
+    const/16 v1, 0x501f
+
+    const v4, 0xd90a
+
+    invoke-direct {p0, v2, v1, v4}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->controlOut(III)I
+
+    move-result v1
+
+    if-ltz v1, :cond_0
+
+    invoke-direct {p0, v3}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->setBaudRate(I)V
+
+    invoke-direct {p0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->setControlLines()V
+
+    const-string v1, "init #10"
+
+    filled-new-array {v0, v0}, [I
+
+    move-result-object v0
+
+    invoke-direct {p0, v1, v5, v6, v0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->checkState(Ljava/lang/String;II[I)V
+
+    return-void
+
+    :cond_0
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "Init failed: #7"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    :cond_1
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "Init failed: #5"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    :cond_2
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "Init failed: #2"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+.end method
+
+.method private setBaudRate(I)V
+    .locals 9
+
+    const v0, 0xe1000
+
+    if-ne p1, v0, :cond_0
+
+    const-wide/16 v0, 0x7
+
+    const-wide/32 v2, 0xf300
+
+    goto :goto_1
+
+    :cond_0
+    const-wide/32 v0, 0x5b59f000
+
+    int-to-long v2, p1
+
+    div-long/2addr v0, v2
+
+    const-wide/16 v2, 0x3
+
+    :goto_0
+    const-wide/32 v4, 0xfff0
+
+    cmp-long v4, v0, v4
+
+    if-lez v4, :cond_1
+
+    const-wide/16 v5, 0x0
+
+    cmp-long v5, v2, v5
+
+    if-lez v5, :cond_1
+
+    const/4 v4, 0x3
+
+    shr-long/2addr v0, v4
+
+    const-wide/16 v4, 0x1
+
+    sub-long/2addr v2, v4
+
+    goto :goto_0
+
+    :cond_1
+    if-gtz v4, :cond_4
+
+    const-wide/32 v4, 0x10000
+
+    sub-long v0, v4, v0
+
+    move-wide v7, v0
+
+    move-wide v0, v2
+
+    move-wide v2, v7
+
+    :goto_1
+    const-wide/16 v4, 0x80
+
+    or-long/2addr v0, v4
+
+    const-wide/32 v4, 0xff00
+
+    and-long/2addr v4, v2
+
+    or-long/2addr v0, v4
+
+    long-to-int v0, v0
+
+    const-wide/16 v4, 0xff
+
+    and-long v1, v2, v4
+
+    long-to-int v1, v1
+
+    invoke-static {}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver;->access$000()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-static {p1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object p1
+
+    invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object v3
+
+    invoke-static {v1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object v4
+
+    filled-new-array {p1, v3, v4}, [Ljava/lang/Object;
+
+    move-result-object p1
+
+    const-string v3, "baud rate=%d, 0x1312=0x%04x, 0x0f2c=0x%04x"
+
+    invoke-static {v3, p1}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+
+    move-result-object p1
+
+    invoke-static {v2, p1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
+    const/16 p1, 0x1312
+
+    const/16 v2, 0x9a
+
+    invoke-direct {p0, v2, p1, v0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->controlOut(III)I
+
+    move-result p1
+
+    if-ltz p1, :cond_3
+
+    const/16 p1, 0xf2c
+
+    invoke-direct {p0, v2, p1, v1}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->controlOut(III)I
+
+    move-result p1
+
+    if-ltz p1, :cond_2
+
+    return-void
+
+    :cond_2
+    new-instance p1, Ljava/io/IOException;
+
+    const-string v0, "Error setting baud rate: #2"
+
+    invoke-direct {p1, v0}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw p1
+
+    :cond_3
+    new-instance p1, Ljava/io/IOException;
+
+    const-string v0, "Error setting baud rate: #1)"
+
+    invoke-direct {p1, v0}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw p1
+
+    :cond_4
+    new-instance v0, Ljava/lang/UnsupportedOperationException;
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v2, "Unsupported baud rate: "
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object p1
+
+    invoke-direct {v0, p1}, Ljava/lang/UnsupportedOperationException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+.end method
+
+.method private setControlLines()V
+    .locals 3
+
+    iget-boolean v0, p0, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->dtr:Z
+
+    const/4 v1, 0x0
+
+    if-eqz v0, :cond_0
+
+    const/16 v0, 0x20
+
+    goto :goto_0
+
+    :cond_0
+    move v0, v1
+
+    :goto_0
+    iget-boolean v2, p0, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->rts:Z
+
+    if-eqz v2, :cond_1
+
+    const/16 v2, 0x40
+
+    goto :goto_1
+
+    :cond_1
+    move v2, v1
+
+    :goto_1
+    or-int/2addr v0, v2
+
+    not-int v0, v0
+
+    const/16 v2, 0xa4
+
+    invoke-direct {p0, v2, v0, v1}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->controlOut(III)I
+
+    move-result v0
+
+    if-ltz v0, :cond_2
+
+    return-void
+
+    :cond_2
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "Failed to set control lines"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+.end method
+
+
+# virtual methods
+.method protected closeInt()V
+    .locals 3
+
+    const/4 v0, 0x0
+
+    :goto_0
+    :try_start_0
+    iget-object v1, p0, Lcom/hoho/android/usbserial/driver/CommonUsbSerialPort;->mDevice:Landroid/hardware/usb/UsbDevice;
+
+    invoke-virtual {v1}, Landroid/hardware/usb/UsbDevice;->getInterfaceCount()I
+
+    move-result v1
+
+    if-ge v0, v1, :cond_0
+
+    iget-object v1, p0, Lcom/hoho/android/usbserial/driver/CommonUsbSerialPort;->mConnection:Landroid/hardware/usb/UsbDeviceConnection;
+
+    iget-object v2, p0, Lcom/hoho/android/usbserial/driver/CommonUsbSerialPort;->mDevice:Landroid/hardware/usb/UsbDevice;
+
+    invoke-virtual {v2, v0}, Landroid/hardware/usb/UsbDevice;->getInterface(I)Landroid/hardware/usb/UsbInterface;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Landroid/hardware/usb/UsbDeviceConnection;->releaseInterface(Landroid/hardware/usb/UsbInterface;)Z
+    :try_end_0
+    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+
+    add-int/lit8 v0, v0, 0x1
+
+    goto :goto_0
+
+    :catch_0
+    :cond_0
+    return-void
+.end method
+
+.method public getCD()Z
+    .locals 1
+
+    invoke-direct {p0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->getStatus()B
+
+    move-result v0
+
+    and-int/lit8 v0, v0, 0x8
+
+    if-nez v0, :cond_0
+
+    const/4 v0, 0x1
+
+    goto :goto_0
+
+    :cond_0
+    const/4 v0, 0x0
+
+    :goto_0
+    return v0
+.end method
+
+.method public getCTS()Z
+    .locals 2
+
+    invoke-direct {p0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->getStatus()B
+
+    move-result v0
+
+    const/4 v1, 0x1
+
+    and-int/2addr v0, v1
+
+    if-nez v0, :cond_0
+
+    goto :goto_0
+
+    :cond_0
+    const/4 v1, 0x0
+
+    :goto_0
+    return v1
+.end method
+
+.method public getControlLines()Ljava/util/EnumSet;
+    .locals 3
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "()",
+            "Ljava/util/EnumSet<",
+            "Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;",
+            ">;"
+        }
+    .end annotation
+
+    invoke-direct {p0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->getStatus()B
+
+    move-result v0
+
+    const-class v1, Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;
+
+    invoke-static {v1}, Ljava/util/EnumSet;->noneOf(Ljava/lang/Class;)Ljava/util/EnumSet;
+
+    move-result-object v1
+
+    iget-boolean v2, p0, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->rts:Z
+
+    if-eqz v2, :cond_0
+
+    sget-object v2, Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;->RTS:Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;
+
+    invoke-virtual {v1, v2}, Ljava/util/AbstractCollection;->add(Ljava/lang/Object;)Z
+
+    :cond_0
+    and-int/lit8 v2, v0, 0x1
+
+    if-nez v2, :cond_1
+
+    sget-object v2, Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;->CTS:Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;
+
+    invoke-virtual {v1, v2}, Ljava/util/AbstractCollection;->add(Ljava/lang/Object;)Z
+
+    :cond_1
+    iget-boolean v2, p0, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->dtr:Z
+
+    if-eqz v2, :cond_2
+
+    sget-object v2, Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;->DTR:Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;
+
+    invoke-virtual {v1, v2}, Ljava/util/AbstractCollection;->add(Ljava/lang/Object;)Z
+
+    :cond_2
+    and-int/lit8 v2, v0, 0x2
+
+    if-nez v2, :cond_3
+
+    sget-object v2, Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;->DSR:Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;
+
+    invoke-virtual {v1, v2}, Ljava/util/AbstractCollection;->add(Ljava/lang/Object;)Z
+
+    :cond_3
+    and-int/lit8 v2, v0, 0x8
+
+    if-nez v2, :cond_4
+
+    sget-object v2, Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;->CD:Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;
+
+    invoke-virtual {v1, v2}, Ljava/util/AbstractCollection;->add(Ljava/lang/Object;)Z
+
+    :cond_4
+    and-int/lit8 v0, v0, 0x4
+
+    if-nez v0, :cond_5
+
+    sget-object v0, Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;->RI:Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;
+
+    invoke-virtual {v1, v0}, Ljava/util/AbstractCollection;->add(Ljava/lang/Object;)Z
+
+    :cond_5
+    return-object v1
+.end method
+
+.method public getDSR()Z
+    .locals 1
+
+    invoke-direct {p0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->getStatus()B
+
+    move-result v0
+
+    and-int/lit8 v0, v0, 0x2
+
+    if-nez v0, :cond_0
+
+    const/4 v0, 0x1
+
+    goto :goto_0
+
+    :cond_0
+    const/4 v0, 0x0
+
+    :goto_0
+    return v0
+.end method
+
+.method public getDTR()Z
+    .locals 1
+
+    iget-boolean v0, p0, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->dtr:Z
+
+    return v0
+.end method
+
+.method public getDriver()Lcom/hoho/android/usbserial/driver/UsbSerialDriver;
+    .locals 1
+
+    iget-object v0, p0, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->this$0:Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver;
+
+    return-object v0
+.end method
+
+.method public getRI()Z
+    .locals 1
+
+    invoke-direct {p0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->getStatus()B
+
+    move-result v0
+
+    and-int/lit8 v0, v0, 0x4
+
+    if-nez v0, :cond_0
+
+    const/4 v0, 0x1
+
+    goto :goto_0
+
+    :cond_0
+    const/4 v0, 0x0
+
+    :goto_0
+    return v0
+.end method
+
+.method public getRTS()Z
+    .locals 1
+
+    iget-boolean v0, p0, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->rts:Z
+
+    return v0
+.end method
+
+.method public getSupportedControlLines()Ljava/util/EnumSet;
+    .locals 1
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "()",
+            "Ljava/util/EnumSet<",
+            "Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;",
+            ">;"
+        }
+    .end annotation
+
+    const-class v0, Lcom/hoho/android/usbserial/driver/UsbSerialPort$ControlLine;
+
+    invoke-static {v0}, Ljava/util/EnumSet;->allOf(Ljava/lang/Class;)Ljava/util/EnumSet;
+
+    move-result-object v0
+
+    return-object v0
+.end method
+
+.method protected openInt()V
+    .locals 5
+
+    const/4 v0, 0x0
+
+    move v1, v0
+
+    :goto_0
+    iget-object v2, p0, Lcom/hoho/android/usbserial/driver/CommonUsbSerialPort;->mDevice:Landroid/hardware/usb/UsbDevice;
+
+    invoke-virtual {v2}, Landroid/hardware/usb/UsbDevice;->getInterfaceCount()I
+
+    move-result v2
+
+    const/4 v3, 0x1
+
+    if-ge v1, v2, :cond_1
+
+    iget-object v2, p0, Lcom/hoho/android/usbserial/driver/CommonUsbSerialPort;->mDevice:Landroid/hardware/usb/UsbDevice;
+
+    invoke-virtual {v2, v1}, Landroid/hardware/usb/UsbDevice;->getInterface(I)Landroid/hardware/usb/UsbInterface;
+
+    move-result-object v2
+
+    iget-object v4, p0, Lcom/hoho/android/usbserial/driver/CommonUsbSerialPort;->mConnection:Landroid/hardware/usb/UsbDeviceConnection;
+
+    invoke-virtual {v4, v2, v3}, Landroid/hardware/usb/UsbDeviceConnection;->claimInterface(Landroid/hardware/usb/UsbInterface;Z)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_0
+
+    add-int/lit8 v1, v1, 0x1
+
+    goto :goto_0
+
+    :cond_0
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "Could not claim data interface"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    :cond_1
+    iget-object v1, p0, Lcom/hoho/android/usbserial/driver/CommonUsbSerialPort;->mDevice:Landroid/hardware/usb/UsbDevice;
+
+    invoke-virtual {v1}, Landroid/hardware/usb/UsbDevice;->getInterfaceCount()I
+
+    move-result v2
+
+    sub-int/2addr v2, v3
+
+    invoke-virtual {v1, v2}, Landroid/hardware/usb/UsbDevice;->getInterface(I)Landroid/hardware/usb/UsbInterface;
+
+    move-result-object v1
+
+    :goto_1
+    invoke-virtual {v1}, Landroid/hardware/usb/UsbInterface;->getEndpointCount()I
+
+    move-result v2
+
+    if-ge v0, v2, :cond_4
+
+    invoke-virtual {v1, v0}, Landroid/hardware/usb/UsbInterface;->getEndpoint(I)Landroid/hardware/usb/UsbEndpoint;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Landroid/hardware/usb/UsbEndpoint;->getType()I
+
+    move-result v3
+
+    const/4 v4, 0x2
+
+    if-ne v3, v4, :cond_3
+
+    invoke-virtual {v2}, Landroid/hardware/usb/UsbEndpoint;->getDirection()I
+
+    move-result v3
+
+    const/16 v4, 0x80
+
+    if-ne v3, v4, :cond_2
+
+    iput-object v2, p0, Lcom/hoho/android/usbserial/driver/CommonUsbSerialPort;->mReadEndpoint:Landroid/hardware/usb/UsbEndpoint;
+
+    goto :goto_2
+
+    :cond_2
+    iput-object v2, p0, Lcom/hoho/android/usbserial/driver/CommonUsbSerialPort;->mWriteEndpoint:Landroid/hardware/usb/UsbEndpoint;
+
+    :cond_3
+    :goto_2
+    add-int/lit8 v0, v0, 0x1
+
+    goto :goto_1
+
+    :cond_4
+    invoke-direct {p0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->initialize()V
+
+    const/16 v0, 0x2580
+
+    invoke-direct {p0, v0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->setBaudRate(I)V
+
+    return-void
+.end method
+
+.method public setBreak(Z)V
+    .locals 4
+
+    const/4 v0, 0x2
+
+    new-array v0, v0, [B
+
+    const/16 v1, 0x95
+
+    const/16 v2, 0x1805
+
+    const/4 v3, 0x0
+
+    invoke-direct {p0, v1, v2, v3, v0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->controlIn(III[B)I
+
+    move-result v1
+
+    if-ltz v1, :cond_2
+
+    const/4 v1, 0x1
+
+    if-eqz p1, :cond_0
+
+    aget-byte p1, v0, v3
+
+    and-int/lit8 p1, p1, -0x2
+
+    int-to-byte p1, p1
+
+    aput-byte p1, v0, v3
+
+    aget-byte p1, v0, v1
+
+    and-int/lit8 p1, p1, -0x41
+
+    int-to-byte p1, p1
+
+    aput-byte p1, v0, v1
+
+    goto :goto_0
+
+    :cond_0
+    aget-byte p1, v0, v3
+
+    or-int/2addr p1, v1
+
+    int-to-byte p1, p1
+
+    aput-byte p1, v0, v3
+
+    aget-byte p1, v0, v1
+
+    or-int/lit8 p1, p1, 0x40
+
+    int-to-byte p1, p1
+
+    aput-byte p1, v0, v1
+
+    :goto_0
+    aget-byte p1, v0, v1
+
+    and-int/lit16 p1, p1, 0xff
+
+    shl-int/lit8 p1, p1, 0x8
+
+    aget-byte v0, v0, v3
+
+    and-int/lit16 v0, v0, 0xff
+
+    or-int/2addr p1, v0
+
+    const/16 v0, 0x9a
+
+    invoke-direct {p0, v0, v2, p1}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->controlOut(III)I
+
+    move-result p1
+
+    if-ltz p1, :cond_1
+
+    return-void
+
+    :cond_1
+    new-instance p1, Ljava/io/IOException;
+
+    const-string v0, "Error setting BREAK condition"
+
+    invoke-direct {p1, v0}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw p1
+
+    :cond_2
+    new-instance p1, Ljava/io/IOException;
+
+    const-string v0, "Error getting BREAK condition"
+
+    invoke-direct {p1, v0}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw p1
+.end method
+
+.method public setDTR(Z)V
+    .locals 0
+
+    iput-boolean p1, p0, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->dtr:Z
+
+    invoke-direct {p0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->setControlLines()V
+
+    return-void
+.end method
+
+.method public setParameters(IIII)V
+    .locals 3
+
+    if-lez p1, :cond_d
+
+    invoke-direct {p0, p1}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->setBaudRate(I)V
+
+    const/4 p1, 0x5
+
+    if-eq p2, p1, :cond_3
+
+    const/4 p1, 0x6
+
+    if-eq p2, p1, :cond_2
+
+    const/4 p1, 0x7
+
+    if-eq p2, p1, :cond_1
+
+    const/16 p1, 0x8
+
+    if-ne p2, p1, :cond_0
+
+    const/16 p1, 0xc3
+
+    goto :goto_0
+
+    :cond_0
+    new-instance p1, Ljava/lang/IllegalArgumentException;
+
+    new-instance p3, Ljava/lang/StringBuilder;
+
+    invoke-direct {p3}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string p4, "Invalid data bits: "
+
+    invoke-virtual {p3, p4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p3, p2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object p2
+
+    invoke-direct {p1, p2}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw p1
+
+    :cond_1
+    const/16 p1, 0xc2
+
+    goto :goto_0
+
+    :cond_2
+    const/16 p1, 0xc1
+
+    goto :goto_0
+
+    :cond_3
+    const/16 p1, 0xc0
+
+    :goto_0
+    const/4 p2, 0x3
+
+    const/4 v0, 0x2
+
+    const/4 v1, 0x1
+
+    if-eqz p4, :cond_8
+
+    if-eq p4, v1, :cond_7
+
+    if-eq p4, v0, :cond_6
+
+    if-eq p4, p2, :cond_5
+
+    const/4 v2, 0x4
+
+    if-ne p4, v2, :cond_4
+
+    or-int/lit8 p1, p1, 0x38
+
+    goto :goto_1
+
+    :cond_4
+    new-instance p1, Ljava/lang/IllegalArgumentException;
+
+    new-instance p2, Ljava/lang/StringBuilder;
+
+    invoke-direct {p2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string p3, "Invalid parity: "
+
+    invoke-virtual {p2, p3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p2, p4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object p2
+
+    invoke-direct {p1, p2}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw p1
+
+    :cond_5
+    or-int/lit8 p1, p1, 0x28
+
+    goto :goto_1
+
+    :cond_6
+    or-int/lit8 p1, p1, 0x18
+
+    goto :goto_1
+
+    :cond_7
+    or-int/lit8 p1, p1, 0x8
+
+    :cond_8
+    :goto_1
+    if-eq p3, v1, :cond_b
+
+    if-eq p3, v0, :cond_a
+
+    if-eq p3, p2, :cond_9
+
+    new-instance p1, Ljava/lang/IllegalArgumentException;
+
+    new-instance p2, Ljava/lang/StringBuilder;
+
+    invoke-direct {p2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string p4, "Invalid stop bits: "
+
+    invoke-virtual {p2, p4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p2, p3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object p2
+
+    invoke-direct {p1, p2}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw p1
+
+    :cond_9
+    new-instance p1, Ljava/lang/UnsupportedOperationException;
+
+    const-string p2, "Unsupported stop bits: 1.5"
+
+    invoke-direct {p1, p2}, Ljava/lang/UnsupportedOperationException;-><init>(Ljava/lang/String;)V
+
+    throw p1
+
+    :cond_a
+    or-int/lit8 p1, p1, 0x4
+
+    :cond_b
+    const/16 p2, 0x9a
+
+    const/16 p3, 0x2518
+
+    invoke-direct {p0, p2, p3, p1}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->controlOut(III)I
+
+    move-result p1
+
+    if-ltz p1, :cond_c
+
+    return-void
+
+    :cond_c
+    new-instance p1, Ljava/io/IOException;
+
+    const-string p2, "Error setting control byte"
+
+    invoke-direct {p1, p2}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw p1
+
+    :cond_d
+    new-instance p2, Ljava/lang/IllegalArgumentException;
+
+    new-instance p3, Ljava/lang/StringBuilder;
+
+    invoke-direct {p3}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string p4, "Invalid baud rate: "
+
+    invoke-virtual {p3, p4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p3, p1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object p1
+
+    invoke-direct {p2, p1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw p2
+.end method
+
+.method public setRTS(Z)V
+    .locals 0
+
+    iput-boolean p1, p0, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->rts:Z
+
+    invoke-direct {p0}, Lcom/hoho/android/usbserial/driver/Ch34xSerialDriver$Ch340SerialPort;->setControlLines()V
+
+    return-void
+.end method

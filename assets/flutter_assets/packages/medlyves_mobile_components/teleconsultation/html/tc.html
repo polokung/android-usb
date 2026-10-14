@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src='https://8x8.vc/vpaas-magic-cookie-037e2ee39c8b4c2aa1ecd15d3091c20e/external_api.js' async></script>
+    <style>html, body, #jaas-container { height: 100%; }</style>
+    <script type="text/javascript">
+      let api;
+
+      window.onload = () => {
+        const baseUrl = window.baseUrl;
+        const apiEndpoint = baseUrl;
+        const patientId = window.patientId;
+        fetch(apiEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "patient_id": patientId
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const jwtToken = data.token;
+            const room = data.room
+            const email = data.email
+            const name = data.name
+            const api = new JitsiMeetExternalAPI("8x8.vc", {
+            roomName: room,
+            parentNode: document.querySelector('#jaas-container'),
+            jwt: jwtToken,
+            userInfo: {
+                    email: email,
+                    displayName: name
+                }
+        });
+        })
+        .catch(error => console.error('Error:', error));
+      }
+    </script>
+  </head>
+  <body>
+    <div id="jaas-container"></div>
+  </body>
+</html>

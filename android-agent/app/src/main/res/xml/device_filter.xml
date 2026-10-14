@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        ACS Smart Card Readers — VID: 0x072F (1839)
+        ใช้สำหรับ USB_DEVICE_ATTACHED intent filter
+    -->
+
+    <!-- ACR39U (Base Model) — PID: 0xB100 (45312) -->
+    <usb-device vendor-id="1839" product-id="45312" />
+    <!-- ACR39K — PID: 0xB101 (45313) -->
+    <usb-device vendor-id="1839" product-id="45313" />
+    <!-- ACR39T — PID: 0xB102 (45314) -->
+    <usb-device vendor-id="1839" product-id="45314" />
+    <!-- ACR39F — PID: 0xB103 (45315) -->
+    <usb-device vendor-id="1839" product-id="45315" />
+    <!-- ACR39U-SAM — PID: 0xB104 (45316) -->
+    <usb-device vendor-id="1839" product-id="45316" />
+    <!-- ACR39U-U1 — PID: 0xB10C (45324) -->
+    <usb-device vendor-id="1839" product-id="45324" />
+    <!-- ACR39U-W1 Top — PID: 0xB113 (45331) -->
+    <usb-device vendor-id="1839" product-id="45331" />
+    <!-- ACR39U-W1 Top variant — PID: 0xB116 (45334) -->
+    <usb-device vendor-id="1839" product-id="45334" />
+    <!-- ACR39U-W1 Edge — PID: 0xB114 (45332) -->
+    <usb-device vendor-id="1839" product-id="45332" />
+    <!-- ACR39U-W1 Edge variant — PID: 0xB117 (45335) -->
+    <usb-device vendor-id="1839" product-id="45335" />
+
+    <!-- ACR38U — PID: 0x9000 (36864) -->
+    <usb-device vendor-id="1839" product-id="36864" />
+    <!-- ACR122U — PID: 0x2200 (8704) -->
+    <usb-device vendor-id="1839" product-id="8704" />
+
+    <!-- Fallback: ตรวจจับ CCID readers ทุกยี่ห้อ (USB class 0x0B = 11) -->
+    <usb-device class="11" />
+</resources>
